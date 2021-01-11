@@ -15,15 +15,29 @@ function getData(){
     chrome.runtime.sendMessage({data: "Send Data"}, function(response){
         console.log(response)
         var keys = Object.keys(response);
+        var overAllTime = 0;
+        var sortable = []
         for(var i = 0; i < keys.length; i++){
             var keyData = keys[i];
             var actualData = response[keyData];
+            sortable.push([keyData, actualData]);
+            overAllTime += Number(actualData)
+        }
+        sortable.sort(function(a, b){
+            return b[1] - a[1];
+        })
+        for(var i = 0; i < sortable.length; i++){
+            var keyData = sortable[i][0]
+            var actualData = sortable[i][1]
             var table = document.querySelector("table");
             var row = table.insertRow(i);
             var timeInSeconds = Number(actualData);
             var time = convertTime(timeInSeconds);
             row.innerHTML = "<td>" + keyData + "</td>" + "<td class=\"left_assign\">" + time.hours+ " hours </td>" + "<td class=\"left_assign\">" + time.minutes+ " minutes </td>" + "<td class=\"left_assign\">" + time.seconds+ " seconds </td>";
         }
+        var span = document.querySelector("span");
+        var time = convertTime(overAllTime);
+        span.innerHTML = time.hours + " hours " + time.minutes + " minutes " + time.seconds + " seconds "; 
     })
 }
 
