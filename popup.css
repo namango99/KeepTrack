@@ -1,0 +1,25 @@
+body {
+    background-color: black;
+    height: 500px;
+    width: 500px;
+    color: cornsilk;
+}
+
+button {
+    margin-top: 10px;
+    margin-left: 42%;
+}
+
+.left_assign {
+    text-align: right;
+}
+
+td {
+    width: 150px;
+    font-size: 13px;
+}
+
+button {
+    background-color: white; 
+    color: black;
+}

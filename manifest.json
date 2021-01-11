@@ -1,0 +1,25 @@
+{
+    "manifest_version" : 2,
+
+    "version" : "0.0.1",
+    
+    "name" : "Last Used",
+    
+    "content_scripts" : [
+        {
+            "matches" : ["<all_urls>"],
+            "js" : ["content.js"]
+        }
+    ],
+    
+    "background" : {
+        "scripts" : ["background.js"]
+    },
+    
+    "permissions" : ["tabs"],
+    
+    "browser_action" : {
+        "default_popup": "popup.html"
+    }
+
+}
