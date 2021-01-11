@@ -7,6 +7,8 @@ clearDataBtn.addEventListener("click", function(){
         allData[i].parentNode.removeChild(allData[i]);
     }
     console.log("Data Cleared! and Extension Restarted..")
+    var span = document.querySelector("span");
+    span.innerHTML = 0 + " hours " + 0 + " minutes " + 0 + " seconds "; 
 })
 
 getData();
