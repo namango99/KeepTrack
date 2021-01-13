@@ -1,11 +1,12 @@
 body {
-    background-color: black;
+    background-color: #1f5e50;
     height: 500px;
     width: 500px;
-    color: cornsilk;
+    color:#d3f5ed;
 }
 
-button {
+.clear {
+    border: black;
     margin-top: 10px;
     margin-left: 42%;
 }
@@ -17,9 +18,37 @@ button {
 td {
     width: 150px;
     font-size: 13px;
+    text-align: center;
 }
 
 button {
-    background-color: white; 
-    color: black;
+    background-color: rgba(0, 0, 0, 0); 
+    color: #d3f5ed;
+    border: none;
+}
+
+i {
+    font-size: 1.1rem;
+}
+
+.space {
+    padding: 10px;
+}
+
+.leftAlign {
+    /* float: left; */
+    display:inline-block;
+}
+
+.rightAlign {
+    /* display:inline-block; */
+    float: right;
+}
+
+.hide {
+    display: none;
+}
+
+.bigSize {
+    font-size: 2rem;
 }
