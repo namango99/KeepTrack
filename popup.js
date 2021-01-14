@@ -23,7 +23,6 @@ function getData(){
             var time = convertTime(timeInSeconds);
             var newData = document.createElement("h3");
             newData.style = "clear: both;";
-            // + "<div>" + innerData(sortable[i][2]) + "</div>"
             newData.innerHTML = "<span class=\"space leftAlign\">" + keyData + "</span>" + makeButton(i) + "<span class=\"space rightAlign\"> " + time.hours+ " hours " + "   " + time.minutes+ " minutes" + "     " + time.seconds+ " seconds </span>" 
             data.appendChild(newData);
             var newDataChild = document.createElement("div");
@@ -39,25 +38,13 @@ function getData(){
                 var giveTab = event.currentTarget.myParam;
                 var tab_ = document.querySelector(giveTab);
                 tab_.classList.toggle("hide");
-                // fa-caret-down
-                // fa-sort-up
                 var iconId = ".icon" + giveTab.slice(5, giveTab.length);
                 var icontag = document.querySelector(iconId);
                 if(icontag.style.transform == "") {
-                    // console.log("ROTATING");
                     icontag.style.transform = "rotate(180deg)"
                 }else {
-                    // console.log("REVERSE ROTATING");
                     icontag.style.transform = "";
                 }
-                // console.log(giveTab + " " + iconId);
-                // if(icontag.classList.contains("fa-caret-down")) {
-                //     icontag.classList.remove("fa-caret-down");
-                //     icontag.classList.add("fa-sort-up");
-                // }else {
-                //     icontag.classList.remove("fa-sort-up");
-                //     icontag.classList.add("fa-caret-down");
-                // }
             })
         }
         var span = document.querySelector("span");
@@ -118,19 +105,6 @@ function splitArray(data){
         splitted[i] = [Number(now[0]), Number(now[1])]
     }
     return splitted;
-}
-
-function innerData(data){
-//     var html = ["<div>"]
-    var html = []
-    for(var i = 1; i < data.length; i++){
-        var start = i - 1, end = i;
-        var time = convertTime(data[i][1]);
-        html.push("<div style=\"clear: both;\"><span class=\"leftAlign\">" + start + "\xa0\xa0\xa0-\xa0\xa0\xa0" + end + "</span><span class=\"rightAlign\">" + time.hours+ "\xa0\xa0\xa0hours\xa0\xa0\xa0" + time.minutes+ "\xa0\xa0\xa0minutes\xa0\xa0\xa0" + time.seconds+ "\xa0\xa0\xa0seconds\xa0\xa0\xa0</span></div>")
-    }
-    html.push("<div><i class=\"fas fa-chevron-circle-up leftAlign\"></i></div>")
-    // html.push("</div>")
-    return html.join("");
 }
 
 function innerDataUpdated(data, number) { 
