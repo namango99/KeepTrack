@@ -8,10 +8,12 @@ body {
 
 .clear {
     border: black;
-    background-color: #d3f5ed;
+    background-color: #ff7863;
     color: black;
     margin-top: 10px;
-    margin-left: 42%;
+    margin-left: 20%;
+    width: 20%;
+    text-align: center;
 }
 
 .left_assign {
@@ -29,6 +31,22 @@ button {
     color: #d3f5ed;
     border: none;
     outline: none;
+}
+
+.pause {
+    background-color: yellow;
+    color: black;
+    margin-left: 20%;
+    width: 20%;
+    text-align: center;
+}
+
+.resume {
+    background-color: greenyellow;
+    color: black;
+    margin-left: 20%;
+    width: 20%;
+    text-align: center;
 }
 
 i {

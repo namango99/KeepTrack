@@ -47,16 +47,17 @@ function getData(){
                 }
             })
         }
+        
         var span = document.querySelector("span");
         span.className = "bigSize";
         var time = convertTime(overAllTime);
         span.innerHTML = "\xa0\xa0\xa0" + time.hours + " hours " + time.minutes + " minutes "; 
 
         var body = document.querySelector("body");
-        var newData = document.createElement("button");
-        newData.className = "clear";
-        newData.innerHTML = "Clear Data";
-        body.appendChild(newData);
+        var clearButton = document.createElement("button");
+        clearButton.className = "clear";
+        clearButton.innerHTML = "Clear Data";
+        body.appendChild(clearButton);
 
         var clearDataBtn = document.querySelector(".clear");
 
@@ -75,6 +76,38 @@ function getData(){
             span.innerHTML = 0 + " hours " + 0 + " minutes " + 0 + " seconds "; 
         })
 
+
+        
+
+        chrome.runtime.sendMessage({data: "Give State"}, function(response){
+            var pauseButton = document.createElement("button");
+            var body = document.querySelector("body");
+            // TODO  -> Get State of app currently from background.js
+            // var response = giveState();
+            if(response) {
+                // Running State -> make button that show to pause
+                pauseButton.className = "pause"; // yellow in color
+                pauseButton.textContent = "PAUSE";
+            }else {
+                // Paused State -> make button that show to resume
+                pauseButton.className = "resume";
+                pauseButton.textContent = "Resume";
+            }
+            body.appendChild(pauseButton);
+
+            pauseButton.addEventListener("click", function() {
+                pauseButton.classList.toggle("pause");
+                pauseButton.classList.toggle("resume");
+                if(pauseButton.classList.contains("pause")) {
+                    pauseButton.textContent = "PAUSE";
+                }else {
+                    pauseButton.textContent = "RESUME";
+                }
+                chrome.runtime.sendMessage({data: "Change State"}, function(response){
+                })
+            })
+
+        }) 
     })
 }
 
@@ -82,6 +115,12 @@ function makeButton(number){
     var data = "<button class=\"toggle" + number + "\">" + "<i class=\"fas icon" + number +  " fa-caret-down\"></i>" + "</button>"
     return data;
 }
+
+// function giveState() {
+//     chrome.runtime.sendMessage({data: "Give State"}, function(response){
+//         return response;
+//     }) 
+// }
 
 function clearData() {
     chrome.runtime.sendMessage({data: "Clear Data"}, function(response){

@@ -2,6 +2,7 @@
     Idea : We will simply see the current url after some fixed duration of time 
 */
 var globalTime = new Date().getTime();
+var state = true; // true for running and false for paused
 
 function timeDifference() {
     var currentTime = new Date().getTime();
@@ -38,44 +39,63 @@ function giveDomain(URL) {
     }
 }
 
-var value = setInterval(function(){
-    chrome.tabs.query({active:true, lastFocusedWindow:true}, function(tab){
-        if(tab[0] != undefined){
-            var url = tab[0].url;
-            var ok = true;
-            for(var i = 0; i < url.length; i++){
-                if(url[i] != "\xa0"){
-                    ok = false;
-                    break;
+function startSetInterval() {
+    var value = setInterval(function(){
+        chrome.tabs.query({active:true, lastFocusedWindow:true}, function(tab){
+            if(tab[0] != undefined){
+                var url = tab[0].url;
+                var ok = true;
+                for(var i = 0; i < url.length; i++){
+                    if(url[i] != "\xa0"){
+                        ok = false;
+                        break;
+                    }
+                }
+                if(ok) {
+                    return;
+                }
+                var domain_ = giveDomain(url);
+                if(domain_ != undefined){
+                    var get = localStorage.getItem(domain_);
+                    if(get == null){
+                        var Array = makeArray();
+                        updateData(Array, giveSlotNumber());
+                        localStorage.setItem(domain_, dataToString(Array));
+                    }else {
+                        // console.log(get);
+                        var Array = splitArray(get);
+                        // console.log(Array)
+                        updateData(Array, giveSlotNumber());
+                        // console.log(Array)
+                        localStorage.removeItem(domain_);
+                        localStorage.setItem(domain_, dataToString(Array));
+                    }
                 }
             }
-            if(ok) {
-                return;
-            }
-            var domain_ = giveDomain(url);
-            if(domain_ != undefined){
-                var get = localStorage.getItem(domain_);
-                if(get == null){
-                    var Array = makeArray();
-                    updateData(Array, giveSlotNumber());
-                    localStorage.setItem(domain_, dataToString(Array));
-                }else {
-                    // console.log(get);
-                    var Array = splitArray(get);
-                    // console.log(Array)
-                    updateData(Array, giveSlotNumber());
-                    // console.log(Array)
-                    localStorage.removeItem(domain_);
-                    localStorage.setItem(domain_, dataToString(Array));
-                }
-            }
-        }
-    });
-}, 5000);
+        });
+    }, 5000);
+    return value;
+}
+
+function stopSetInterval(value) {
+    clearInterval(value);
+}
+
+var toClearInterval = startSetInterval();
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     if(request.data === "Send Data"){
         sendResponse(localStorage);
+    }else if(request.data === "Give State") {
+        sendResponse(state);
+    }else if(request.data === "Change State") {
+        if(state) {
+            stopSetInterval(toClearInterval);
+        }else {
+            toClearInterval = startSetInterval();
+        }
+        state ^= true;
+        sendResponse("Done");
     }else {
         localStorage.clear();
         sendResponse("Done");
